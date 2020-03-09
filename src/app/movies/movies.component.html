@@ -1,0 +1,10 @@
+<p>movies works!</p>
+<div *ngFor="let article of articles">
+<h2>{{article.title}}</h2>
+
+<img src="http://image.tmdb.org/t/p/original/{{article.poster_path}}" height="200">
+<p>
+    Plot:{{article.overview}}
+</p>
+<a href="{{article.id}}">Read more</a>
+</div>
