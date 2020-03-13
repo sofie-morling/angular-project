@@ -1,14 +1,49 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+
+import { Movie } from './movie';
+import { MessageService } from './message.service'
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-API_KEY = 'd77b617db369bdf6ca8a09da90ef5676';
+  API_KEY = 'd77b617db369bdf6ca8a09da90ef5676';
+  API_URL = 'https://api.themoviedb.org/3/';
+  apiKeyParam = `api_key=${this.API_KEY}`;
+  public searchResults: Movie[] = [];
+  log: any;
 
-public getMovies(){
-  return this.httpClient.get('https://api.themoviedb.org/3/discover/movie?api_key=d77b617db369bdf6ca8a09da90ef5676&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1');
-}
+  public getMovies() {
+    return this.httpClient.get(`${this.API_URL}discover/movie?${this.apiKeyParam}&sort_by=popularity.desc`);
+  }
+
+  public getMovie(id: number) {
+    return this.httpClient.get(`${this.API_URL}movie/${id}?${this.apiKeyParam}`);
+  }
+
+  public getCredits(id: number) {
+    return this.httpClient.get(`${this.API_URL}movie/${id}/credits?${this.apiKeyParam}`);
+  }
+  // search function for movies
+
+  searchMovies(term: string): Observable<Movie[]> {
+   if (!term.trim()) {
+     return of([]);
+   }
+   return this.httpClient.get<any>(`${this.API_URL}/movie?=${term}`).pipe(
+    tap(x => x.length ?
+       this.log(`found movies matching "${term}"`) :
+       this.log(`no movies matching "${term}"`)),
+    catchError(this.handleError<any>('searchMovies', []))
+  );
+
+  }
+  handleError<T>(arg0: string, arg1: undefined[]): (err: any, caught: Observable<any>) => import("rxjs").ObservableInput<any> {
+    throw new Error("Method not implemented.");
+  }
+
   constructor(private httpClient: HttpClient) { }
 }

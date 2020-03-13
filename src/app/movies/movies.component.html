@@ -1,10 +1,15 @@
 <p>movies works!</p>
+<div>
+    <img src="https://www.themoviedb.org/assets/2/v4/logos/312x276-primary-green-74212f6247252a023be0f02a5a45794925c3689117da9d20ffe47742a665c518.png" height="100">
+</div>
 <div *ngFor="let article of articles">
 <h2>{{article.title}}</h2>
 
 <img src="http://image.tmdb.org/t/p/original/{{article.poster_path}}" height="200">
+
 <p>
-    Plot:{{article.overview}}
+<a routerLink="/detail/{{article.id}}">More</a>
 </p>
-<a href="{{article.id}}">Read more</a>
 </div>
+
+<app-movie-search></app-movie-search>

@@ -1,1 +1,22 @@
 <p>movie-details works!</p>
+<div *ngIf='movie'>
+    <h2>{{movie.title}}</h2>
+<img src="http://image.tmdb.org/t/p/original/{{movie.poster_path}}" height="200">
+<p>
+    Plot:{{movie.overview}}
+</p>
+<p>
+    Release date:{{movie.release_date}}
+</p>
+<h3>Cast:</h3>
+<ul>
+    <li *ngFor="let castMember of movie.cast">
+        <img *ngIf="castMember.profile_path" src="http://image.tmdb.org/t/p/original{{castMember.profile_path}}" height="150">
+        {{castMember.name}}: {{castMember.character}}
+    </li>
+</ul>
+<h3>Crew:</h3>
+<ul>
+    <li *ngFor="let crewMember of movie.crew">{{crewMember.name}}: {{crewMember.job}}</li>
+</ul>
+</div>
