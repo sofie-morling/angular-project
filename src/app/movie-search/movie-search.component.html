@@ -1,11 +1,26 @@
 <p>movie-search works!</p>
-<div id="search-component">
+<div class="jumbotron" id="search-component">
     <h4><label for="search-box">Movie Search</label></h4>
-    <input #searchBox id="search-box" (input)="search(searchBox.value)" />
-    
-    <ul class="search-result">
-      <li *ngFor="let movie of movies$ | async" >
-        
-      </li>
-    </ul>
+    <input #searchBox id="search-box" placeholder="Enter movie" />
+    <button (click)="search(searchBox.value)">Search</button>
+    <div *ngIf="movieResults && movieResults.length">
+      <h3>Movies Found</h3>
+      <ul>
+        <li *ngFor="let movie of movieResults" >
+          <a routerLink="/detail/{{movie.id}}">
+            {{movie.title}}
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="peopleResults && peopleResults.length">
+      <h3>People Found</h3>
+      <ul>
+        <li *ngFor="let person of peopleResults" >
+          <a routerLink="/detail/{{person.id}}">
+            {{person.name}}
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>

@@ -13,18 +13,22 @@ import { ApiService } from '../api.service';
 })
 export class MovieSearchComponent implements OnInit {
 
-movies$: Observable<Movie[]>;  
+movieResults: any[];
+peopleResults: any[];
 
-private searchTerms = new Subject<string>();
-  
 constructor(private apiService: ApiService) { }
 
+search(term: string): void {
+  if(!term.trim()) return;
+  console.log(term);
+  this.apiService.searchMovies(term).subscribe((data)=>{
+    console.log(data);
+    this.movieResults = data['results'].filter(item => item.media_type === 'movie');
+    this.peopleResults = data['results'].filter(item => item.media_type === 'person');
+  });
+}
+
   ngOnInit(): void {
-      this.movies$ = this.searchTerms.pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        switchMap((term: string) => this.apiService.searchMovies(term)),
-      );
   }
  /*listMovies() {
    this.results = this.apiService.searchResults;

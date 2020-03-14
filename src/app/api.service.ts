@@ -29,17 +29,12 @@ export class ApiService {
   }
   // search function for movies
 
-  searchMovies(term: string): Observable<Movie[]> {
+  searchMovies(term: string) {
    if (!term.trim()) {
-     return of([]);
+     return;
    }
-   return this.httpClient.get<any>(`${this.API_URL}/movie?=${term}`).pipe(
-    tap(x => x.length ?
-       this.log(`found movies matching "${term}"`) :
-       this.log(`no movies matching "${term}"`)),
-    catchError(this.handleError<any>('searchMovies', []))
-  );
-
+   return this.httpClient.get(`${this.API_URL}search/multi?${this.apiKeyParam}&query=${term}`);
+  
   }
   handleError<T>(arg0: string, arg1: undefined[]): (err: any, caught: Observable<any>) => import("rxjs").ObservableInput<any> {
     throw new Error("Method not implemented.");
