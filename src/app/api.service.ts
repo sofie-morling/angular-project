@@ -30,9 +30,11 @@ export class ApiService {
   // search function for movies
 
   searchMovies(term: string) {
+    // if it returns false then return with nothing
    if (!term.trim()) {
      return;
    }
+   // if it is returned true then get the API search
    return this.httpClient.get(`${this.API_URL}search/multi?${this.apiKeyParam}&query=${term}`);
   
   }

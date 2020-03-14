@@ -23,7 +23,9 @@ search(term: string): void {
   console.log(term);
   this.apiService.searchMovies(term).subscribe((data)=>{
     console.log(data);
-    this.movieResults = data['results'].filter(item => item.media_type === 'movie');
+    // will be printed out only with the category movie
+    this.movieResults = data['results'].filter(item => item.media_type === 'movie')
+    // will be printed out only with the category person
     this.peopleResults = data['results'].filter(item => item.media_type === 'person');
   });
 }
